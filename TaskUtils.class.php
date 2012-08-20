@@ -70,9 +70,14 @@ class TaskUtils
    */
   public static function getLastDeployRevisionNumber()
   {
-    $repositoryTagsURL = 'svn://testbox.beans/projects/' . TaskUtils::getProjectName() . '/tags/';
+    /*$repositoryTagsURL = 'svn://testbox.beans/projects/' . TaskUtils::getProjectName() . '/tags/';
     $latestTagName = exec("svn list $repositoryTagsURL | grep -E '^REL'");
     $o = shell_exec("svn log $repositoryTagsURL/$latestTagName | head -20 | grep -E '^r[0-9]+ \|'| head -2 | tail -1 | awk '{ print $1 }' | sed 's/r//'");
+    return (int)$o;*/
+
+    $filename =  TaskUtils::getLastDeployRevisionNumberPath();
+    $o = file_get_contents($filename);
+
     return (int)$o;
   }
 
@@ -114,7 +119,12 @@ class TaskUtils
    */
   public static function getCurrentRevisionNumber($repositoryTagsURL = '')
   {
-    return exec("svn info $repositoryTagsURL | grep 'Last Changed Rev: ' | sed 's/Last Changed Rev: //'");
+    //return exec("svn info $repositoryTagsURL | grep 'Last Changed Rev: ' | sed 's/Last Changed Rev: //'");
+
+    $filename =  TaskUtils::getCurrentRevisionNumberPath();
+    $o = file_get_contents($filename);
+
+    return (int)$o;
   }
 
   /**
@@ -473,7 +483,7 @@ Error was:
 
   /*
    * Deletes the content of a database
-   * 
+   *
    * @param array $dbInfo - associative array with these db details/keys:  user, password, host, name
    * @param array $tablePrefixesToSpare - you can spare tables starting with the prefixes in this array
    */
