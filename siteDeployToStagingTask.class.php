@@ -13,7 +13,7 @@ EOF;
     $this->name = 'deploy-to-staging';
     $this->briefDescription = 'Deploys the application on the staging environment.';
   }
- 
+
   protected function execute($arguments = array(), $options = array())
   {
     ini_set('memory_limit', '256M');
@@ -53,10 +53,11 @@ EOF;
     exec("echo $lastDeployRevisionNumber > $filename");
 
     // writing the current revision number in a file that will be used when building production
-    $currentRevisionNumber =  TaskUtils::getCurrentRevisionNumber('svn://testbox.beans/projects/' . TaskUtils::getProjectName() . '/trunk');
+    //$currentRevisionNumber =  TaskUtils::getCurrentRevisionNumber('svn://testbox.beans/projects/' . TaskUtils::getProjectName() . '/trunk');
+    $currentRevisionNumber =  TaskUtils::getCurrentRevisionNumber();
     $currentRevFilename =  TaskUtils::getCurrentRevisionNumberPath();
     exec("echo $currentRevisionNumber > $currentRevFilename");
-    
+
 //    THE REASON WHY THE BELOW CODE IS COMMENTED OUT IS THAT THE BUILD PROCESS STARTED TO ERROR ON SEGMENTATION FAULT
 //    WHEN BUILDING THE FORMS, THUS THESE THREE STEPS HAVE BEEN PUT INDIVIDUALLY INTO THE BUILD SCRIPT
 //    // before rsyncing we need to regenerate all the base classes as they are not in the repo
